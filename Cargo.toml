@@ -1,0 +1,17 @@
+[workspace]
+members = [
+    "service1",
+    # "helper1",
+]
+
+[workspace.metadata.raze]
+genmode = "Remote"
+workspace_path = "//cargo"
+targets = [
+    "x86_64-apple-darwin",
+    "x86_64-unknown-linux-musl",
+    "x86_64-unknown-linux-gnu"
+]
+experimental_api = true
+default_gen_buildrs = true
+render_package_aliases = false

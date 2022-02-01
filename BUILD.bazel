@@ -1,0 +1,32 @@
+load("@bazel_skylib//rules:common_settings.bzl", "string_flag", "bool_flag")
+
+bool_flag(name = "release", build_setting_default = False)
+string_flag(name = "stage", build_setting_default = "dev", values=["dev", "test", "prod"])
+
+config_setting(
+    name = "release_enabled",
+    flag_values = {
+        ":release": "true",
+    }
+)
+
+config_setting(
+    name = "stage_prod",
+    flag_values = {
+        ":stage": "prod",
+    }
+)
+
+config_setting(
+    name = "stage_test",
+    flag_values = {
+        ":stage": "test",
+    }
+)
+
+config_setting(
+    name = "stage_dev",
+    flag_values = {
+        ":stage": "dev",
+    }
+)

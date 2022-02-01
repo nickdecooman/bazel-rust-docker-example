@@ -1,0 +1,55 @@
+# Defines a custom C++ toolchain for musl.
+
+load("@rules_cc//cc:defs.bzl", "cc_toolchain")
+
+# This is C++-specific overhead required for all C++ toolchains. See
+# toolchain_config.bzl for details.
+load(":macos-musl-toolchain-config.bzl", "cc_toolchain_config")
+
+filegroup(name = "empty")
+
+cc_toolchain_config(
+    name = "macos_musl_cc_toolchain_config",
+)
+
+# Define our cc_toolchain
+# (https://docs.bazel.build/versions/master/be/c-cpp.html#cc_toolchain).
+# The cc_toolchain rule is pre-defined by the C++ rule owners. It uses these
+# parameters to construct a ToolchainInfo provider, as required by Bazel's
+# platform/toolchain APIs.
+cc_toolchain(
+    name = "macos_musl_cc_toolchain",
+    all_files = ":empty",
+    compiler_files = ":empty",
+    dwp_files = ":empty",
+    linker_files = ":empty",
+    objcopy_files = ":empty",
+    strip_files = ":empty",
+    supports_param_files = 0,
+    toolchain_config = "macos_musl_cc_toolchain_config",
+)
+
+# Bazel's platform/toolchain APIs require this wrapper around the actual
+# toolchain defined above. It serves two purposes: declare which
+# constraint_values it supports (which can be matched to appropriate platforms)
+# and tell Bazel what language this toolchain is for.
+#
+# So when you're building a cc_binary, Bazel has all the info it needs to give
+# that cc_binary the right toolchain: it knows cc_binary requires a "C++-type
+# toolchain" (this is encoded in the cc_binary rule definition) and needs to
+# use a toolchain that matches whatever you set --platforms to at the command
+# line.
+toolchain(
+    name = "macos_musl_toolchain",
+    exec_compatible_with = [
+        "@platforms//cpu:x86_64",
+        "@platforms//os:macos",
+    ],
+    target_compatible_with = [
+        "@platforms//os:linux",
+        "@platforms//cpu:x86_64",
+        "//build/platform/libc:musl",
+    ],
+    toolchain = ":macos_musl_cc_toolchain",
+    toolchain_type = "@bazel_tools//tools/cpp:toolchain_type",
+)

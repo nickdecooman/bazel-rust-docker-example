@@ -1,0 +1,15 @@
+build --incompatible_enable_cc_toolchain_resolution
+build --experimental_remote_merkle_tree_cache --experimental_remote_merkle_tree_cache_size=0
+
+build:release --//:release
+
+build:remote_cache --remote_cache=http://localhost:9090 --remote_download_minimal --experimental_remote_cache_async
+
+# CI
+build:ci --config=release --config=remote_cache
+build:ci --show_progress_rate_limit=3 --color=yes --curses=yes --show_timestamps --terminal_columns=145 --announce_rc
+
+run:ci --config=release
+
+test:ci --config=release
+test:ci --show_progress_rate_limit=3 --color=yes --curses=yes --show_timestamps --terminal_columns=145 --announce_rc --keep_going --build_tests_only --flaky_test_attempts=3

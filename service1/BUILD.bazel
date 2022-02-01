@@ -1,0 +1,19 @@
+load("//:defs.bzl", "rust_bin", "rust_docker_image", "docker_image_publish")
+
+package(default_visibility = ["//visibility:public"])
+
+rust_bin(
+    name = "app",
+    srcs = glob(["src/*.rs"]),
+)
+
+rust_docker_image(
+    name = "image",
+    binary = ":app",
+)
+
+docker_image_publish(
+    name = "publish",
+    image = ":image",
+    repository = "service1"
+)
