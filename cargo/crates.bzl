@@ -13,7 +13,8 @@ load("@bazel_tools//tools/build_defs/repo:utils.bzl", "maybe")  # buildifier: di
 _DEPENDENCIES = {
     "service1": {
         "ferris-says": "@raze__ferris_says__0_2_1//:ferris_says",
-        "uuid": "@raze__uuid__0_8_2//:uuid",
+    },
+    "helper1": {
     },
 }
 
@@ -21,17 +22,23 @@ _DEPENDENCIES = {
 _PROC_MACRO_DEPENDENCIES = {
     "service1": {
     },
+    "helper1": {
+    },
 }
 
 # EXPERIMENTAL -- MAY CHANGE AT ANY TIME: A mapping of package names to a set of normal dev dependencies for the Rust targets of that package.
 _DEV_DEPENDENCIES = {
     "service1": {
     },
+    "helper1": {
+    },
 }
 
 # EXPERIMENTAL -- MAY CHANGE AT ANY TIME: A mapping of package names to a set of proc_macro dev dependencies for the Rust targets of that package.
 _DEV_PROC_MACRO_DEPENDENCIES = {
     "service1": {
+    },
+    "helper1": {
     },
 }
 
@@ -172,42 +179,12 @@ def raze_fetch_remote_crates():
     """This function defines a collection of repos and should be called in a WORKSPACE file"""
     maybe(
         http_archive,
-        name = "raze__cfg_if__1_0_0",
-        url = "https://crates.io/api/v1/crates/cfg-if/1.0.0/download",
-        type = "tar.gz",
-        sha256 = "baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2da40fd",
-        strip_prefix = "cfg-if-1.0.0",
-        build_file = Label("//cargo/remote:BUILD.cfg-if-1.0.0.bazel"),
-    )
-
-    maybe(
-        http_archive,
         name = "raze__ferris_says__0_2_1",
         url = "https://crates.io/api/v1/crates/ferris-says/0.2.1/download",
         type = "tar.gz",
         sha256 = "9515ec2dd9606ec230f6b2d1f25fd9e808a2f2af600143f7efe7e5865505b7aa",
         strip_prefix = "ferris-says-0.2.1",
         build_file = Label("//cargo/remote:BUILD.ferris-says-0.2.1.bazel"),
-    )
-
-    maybe(
-        http_archive,
-        name = "raze__getrandom__0_2_4",
-        url = "https://crates.io/api/v1/crates/getrandom/0.2.4/download",
-        type = "tar.gz",
-        sha256 = "418d37c8b1d42553c93648be529cb70f920d3baf8ef469b74b9638df426e0b4c",
-        strip_prefix = "getrandom-0.2.4",
-        build_file = Label("//cargo/remote:BUILD.getrandom-0.2.4.bazel"),
-    )
-
-    maybe(
-        http_archive,
-        name = "raze__libc__0_2_116",
-        url = "https://crates.io/api/v1/crates/libc/0.2.116/download",
-        type = "tar.gz",
-        sha256 = "565dbd88872dbe4cc8a46e527f26483c1d1f7afa6b884a3bd6cd893d4f98da74",
-        strip_prefix = "libc-0.2.116",
-        build_file = Label("//cargo/remote:BUILD.libc-0.2.116.bazel"),
     )
 
     maybe(
@@ -248,24 +225,4 @@ def raze_fetch_remote_crates():
         sha256 = "3ed742d4ea2bd1176e236172c8429aaf54486e7ac098db29ffe6529e0ce50973",
         strip_prefix = "unicode-width-0.1.9",
         build_file = Label("//cargo/remote:BUILD.unicode-width-0.1.9.bazel"),
-    )
-
-    maybe(
-        http_archive,
-        name = "raze__uuid__0_8_2",
-        url = "https://crates.io/api/v1/crates/uuid/0.8.2/download",
-        type = "tar.gz",
-        sha256 = "bc5cf98d8186244414c848017f0e2676b3fcb46807f6668a97dfe67359a3c4b7",
-        strip_prefix = "uuid-0.8.2",
-        build_file = Label("//cargo/remote:BUILD.uuid-0.8.2.bazel"),
-    )
-
-    maybe(
-        http_archive,
-        name = "raze__wasi__0_10_2_wasi_snapshot_preview1",
-        url = "https://crates.io/api/v1/crates/wasi/0.10.2+wasi-snapshot-preview1/download",
-        type = "tar.gz",
-        sha256 = "fd6fbd9a79829dd1ad0cc20627bf1ed606756a7f77edff7b66b7064f9cb327c6",
-        strip_prefix = "wasi-0.10.2+wasi-snapshot-preview1",
-        build_file = Label("//cargo/remote:BUILD.wasi-0.10.2+wasi-snapshot-preview1.bazel"),
     )

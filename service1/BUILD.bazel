@@ -5,6 +5,9 @@ package(default_visibility = ["//visibility:public"])
 rust_bin(
     name = "app",
     srcs = glob(["src/*.rs"]),
+    deps = [
+        "//helper1:helper1",
+    ]
 )
 
 rust_docker_image(

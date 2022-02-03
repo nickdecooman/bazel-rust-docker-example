@@ -1,7 +1,7 @@
 [workspace]
 members = [
     "service1",
-    # "helper1",
+    "helper1",
 ]
 
 [workspace.metadata.raze]

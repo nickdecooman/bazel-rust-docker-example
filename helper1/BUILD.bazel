@@ -1,0 +1,15 @@
+load("@rules_rust//rust:defs.bzl", "rust_library", "rust_test")
+load("//cargo:crates.bzl", "all_crate_deps")
+
+package(default_visibility = ["//visibility:public"])
+
+rust_library(
+    name = "helper1",
+    srcs = ["src/lib.rs"],
+    deps = all_crate_deps(),
+)
+
+rust_test(
+    name = "helper1_test",
+    crate = ":helper1",
+)
