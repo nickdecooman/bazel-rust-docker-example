@@ -1,0 +1,51 @@
+version: 2.1
+
+orbs: 
+  docker: circleci/docker@2.0.1
+
+executors:
+  bazel:
+    docker:
+      - image: nickdecooman/debian-bazelisk-k8:3a739b8
+
+jobs:
+  build_test:
+    executor: bazel
+    resource_class: large
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - bazel-cache-
+      - restore_cache:
+          keys:
+            - bazelisk-{{ checksum ".bazelversion" }}
+      - run:
+          name: Start bazel remote cache
+          command: ./scripts/start_bazel_remote.sh
+          background: true
+      - run:
+          name: Bazel version
+          command: bazel version
+      - run: 
+          name: Bazel build
+          command: bazel build --config=ci //... 
+      - run:
+          name: Bazel test
+          command: bazel test --config=ci //...
+      - run:
+          name: Build Docker images 
+          command: ./scripts/build_images.sh
+      - save_cache:
+          key: bazel-cache-{{ epoch }}
+          paths:
+            - ~/.bazelcache
+      - save_cache:
+          key: bazelisk-{{ checksum ".bazelversion" }}
+          paths:
+            - ~/.cache/bazelisk
+
+workflows:
+  main:
+    jobs:
+      - build_test
