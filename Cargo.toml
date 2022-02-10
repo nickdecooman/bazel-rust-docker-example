@@ -2,6 +2,7 @@
 members = [
     "service1",
     "helper1",
+    "macro_helper",
 ]
 
 [workspace.metadata.raze]
