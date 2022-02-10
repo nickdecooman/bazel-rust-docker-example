@@ -6,3 +6,4 @@ edition = "2021"
 [dependencies]
 helper1 = { path = "../helper1" }
 ferris-says = "0.2.0"
+postgres = "0.19.2"

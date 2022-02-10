@@ -1,4 +1,5 @@
 extern crate ferris_says;
+extern crate postgres;
 
 use ferris_says::say;
 use helper1::Greeter;
